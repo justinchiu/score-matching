@@ -20,7 +20,7 @@ date: \today
 ## Problem setup: Density estimation
 * Observations from true model $x\sim p^*(x)$
 \vspace{2em}
-* Goal: Learn a model $p(x)$ that's close to $p^*(x)$
+* Ideally: Learn a model $p(x)$ that's close to $p^*(x)$
     * Capture uncertainty / variability over $x$
 \vspace{2em}
 * Participation: Give examples of an $x$ we model, and how $p(x)$ is parameterized
@@ -98,6 +98,7 @@ $$
 * If two fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
 * Can use the Stein score to get good samples / find likely $x$
     * Langevin dynamics: follow score + noise (read more about it another time)
+* Lose ability to compute likelihoods, can only use score model for sampling
 \vspace{8em}
 
 ## Issues in training an EBM
@@ -136,6 +137,13 @@ $$
     * Interpretation: Data augmention + smooth out samples
     * Need to have score model condition on noise $s(x; \sigma_i)$
 \vspace{6em}
+
+## Summary
+* Intractable partition function => Model score
+    * Lose ability to compute likelihoods, can only use score model for sampling
+* Sample via Langevin dynamics (follow grad+noise)
+* Rewrite objective to avoid $\nabla_x p^*(x)$
+* Add multiple noise scales to help learning score at random points
 
 # Connection to diffusion models
 
