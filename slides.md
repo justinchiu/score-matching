@@ -18,9 +18,9 @@ date: \today
 # Energy-Based Models (EBM)
 
 ## Problem setup: Density estimation
-* Observations $x$
+* Observations from true model $x\sim p^*(x)$
 \vspace{2em}
-* Goal: Learn a model $p(x)$
+* Goal: Learn a model $p(x)$ that's close to $p^*(x)$
     * Capture uncertainty / variability over $x$
 \vspace{2em}
 * Participation: Give examples of an $x$ we model, and how $p(x)$ is parameterized
@@ -32,24 +32,52 @@ date: \today
     $$softmax(x) = \frac{\exp(E(x))}{\sum_x \exp(E(x))}$$
 \vspace{2em}
 * Image generation
-    * Can consider every small change in a single pixel as a new clas
+    * Every change in a single pixel is a new class
     * Size: 1024 x 1024, each pixel has 256 * 3 values
-\vspace{2em}
-* More efficient paradigms
 
 ## Image generation models
+::: columns
+:::: {.column width=60%}
 * Autoregressive: Break down generation from left-to-right
-$$p(x) = \prod_t p(x_t | x_{<t})$$
-\vspace{2em}
-* Latent variable model: Break down generation more flexibly
+$$p(x) = \prod_t p(x_{ij} | x_{<i,j},x_{\bullet,<j})$$
+\vspace{1em}
+* Latent variable model: Specify break down more flexibly
 $$p(x) = \sum_z p(x|z)p(z)$$
-\vspace{2em}
-* Energy-based model: Don't enforce breakdown of decision process
+\vspace{1em}
+* Energy-based model: Don't force breakdown of decision process
+::::
+
+:::: {.column width=40%}
+::::
+:::
+
+## EBM drawing
+
 
 ## What is an EBM?
-* Globally normalized over $x$, eg sentences
+* Globally normalized over images $x$
 \begin{align*}
 p(x) &= \frac{\exp(E(x))}{Z}\\
 Z &= \int_x \exp(E(x))
 \end{align*}
 * Computation of the partition function $Z$ is hard
+    * Integrate $E(x)$ over all possible images
+* Goal of training: maximize likelihood (minimize KL div)
+    * Need to compute $p(x)$ and therefore $Z$
+    * Next: How to avoid computing partition function $Z$
+
+# Training an EBM
+
+## KL divergence to Fisher divergence
+
+* Standard: Minimize KL divergence
+$$
+E_{p^*(x)} \log \frac{p^*(x)}{p(x)}
+= E_{p^*(x)} \log p^*(x) - E_{p^*(x)} \log p(x)
+$$
+\vspace{3em}
+* Instead: Minimize Fisher divergence
+$$E_{p^*(x)} \left\|\nabla \log \frac{p^*(x)}{p(x)}\right\|_2^2$$
+* Avoid computing partition function $Z$
+
+## Fisher divergence
