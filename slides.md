@@ -37,21 +37,22 @@ date: \today
 
 ## Image generation models
 ::: columns
-:::: {.column width=60%}
+:::: {.column width=70%}
 * Autoregressive: Break down generation from left-to-right
 $$p(x) = \prod_t p(x_{ij} | x_{<i,j},x_{\bullet,<j})$$
-\vspace{1em}
 * Latent variable model: Specify break down more flexibly
 $$p(x) = \sum_z p(x|z)p(z)$$
-\vspace{1em}
 * Energy-based model: Don't force breakdown of decision process
+$$p(x) = \frac{E(x)}{\int_x E(x)}$$
 ::::
 
-:::: {.column width=40%}
+:::: {.column width=30%}
 ::::
 :::
 
 ## EBM drawing
+* Example: $$E(x) = \sum_i E_i(x)$$
+\vspace{8em}
 
 
 ## What is an EBM?
@@ -66,7 +67,7 @@ Z &= \int_x \exp(E(x))
     * Need to compute $p(x)$ and therefore $Z$
     * Next: How to avoid computing partition function $Z$
 
-# Training an EBM
+# Score-matching: Training an EBM
 
 ## KL divergence to Fisher divergence
 
@@ -75,9 +76,69 @@ $$
 E_{p^*(x)} \log \frac{p^*(x)}{p(x)}
 = E_{p^*(x)} \log p^*(x) - E_{p^*(x)} \log p(x)
 $$
-\vspace{3em}
-* Instead: Minimize Fisher divergence
-$$E_{p^*(x)} \left\|\nabla \log \frac{p^*(x)}{p(x)}\right\|_2^2$$
-* Avoid computing partition function $Z$
+\vspace{1em}
+* Issue: Can't compute $p(x)$ because of $Z$
+\vspace{1em}
+* Instead: Minimize Fisher divergence to avoid computing $Z$
+$$
+E_{p^*(x)} \left\|\nabla_x \log \frac{p^*(x)}{p(x)}\right\|_2^2
+= E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
+$$
 
-## Fisher divergence
+## Minimize Fisher divergence = Score matching
+* Notation: Introduce Stein score $s(x) = \nabla_x \log p(x)$
+$$
+E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
+= E_{p^*(x)} \left\|\nabla_x \log p^*(x) - s(x)\right\|_2^2
+$$
+\vspace{1em}
+* Parameterize $s(x)$ directly instead of $p(x)$, avoiding computing $Z$
+
+## Fisher divergence intuition
+* If two fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
+* Can use the Stein score to get good samples / find likely $x$
+    * Langevin dynamics: follow score + noise (read more about it another time)
+\vspace{8em}
+
+## Issues in training an EBM
+$$
+E_{p^*(x)} \left\|\nabla_x \log p^*(x) - s(x)\right\|_2^2
+$$
+
+1) Solved: Cant compute $p(x)$ b/c of $Z$ => model Stein score $s(x) = \nabla_x \log p(x)$
+\vspace{2em}
+2) Unknown $p^*$: Dont know $p^*(x)$ or its score
+\vspace{2em}
+3) Covariate shift: $E_{p^*(x)}$ is problematic because of covariate shift
+
+## Avoiding $p^*$: Implicit score matching
+* Can rewrite the explicit score matching objective to avoid $p^*$
+$$
+E_{p^*(x)} \left[\left\|\nabla_x \log p^*(x) - s(x)\right\|_2^2\right]
+\approx E_{p^*(x)} \left[\frac{1}{2}\left\|s(x)\right\|_2^2 + tr (\nabla_x s(x))\right]
+$$
+* Second term is nasty: $s(x) \in R^d$, $\nabla_x s(x) \in R^{d\times d}$
+* Solution: Use Hutchinson's trace estimator$$
+E_{p^*(x)} \left[\frac{1}{2}\left\|s(x)\right\|_2^2 + tr (\nabla_x s(x))\right]
+= E_{v\sim N(0,I_d)}E_{p^*(x)} \left[\frac{1}{2}\left\|s(x)\right\|_2^2 + v^T\nabla_x s(x)) v\right]
+$$
+* Easy to implement with pytorch
+
+## Covariate shift
+* Sample via Langevin dynamics := Start with random point and follow score + noise
+    * Score is trained on examples drawn from $p^*(x)$
+    * Score is bad on regions of low $p^*(x)$, eg random points
+    * Slow mixing and bad samples
+* Solution: sample perturbed $x\sim p^*(x)$ with multiple noise scales $\{\sigma_i\}$
+    * Interpretation: Data augmention + smooth out samples
+    * Need to have score model condition on noise $s(x; \sigma_i)$
+
+# Connection to diffusion models
+
+## Diffusion models
+* 
+
+## Credits
+* Ayan Das' blog post
+* Lyu 2009
+* Vincent 2011
