@@ -129,16 +129,25 @@ $$
     * Score is trained on examples drawn from $p^*(x)$
     * Score is bad on regions of low $p^*(x)$, eg random points
     * Slow mixing and bad samples
+\vspace{6em}
+
+## Solution to cov shift
 * Solution: sample perturbed $x\sim p^*(x)$ with multiple noise scales $\{\sigma_i\}$
     * Interpretation: Data augmention + smooth out samples
     * Need to have score model condition on noise $s(x; \sigma_i)$
+\vspace{6em}
 
 # Connection to diffusion models
 
 ## Diffusion models
-* 
+* Hierarchical VAE perspective: forward / reverse process vs noised marginals + score model
+\vspace{7em}
+* SDE: continuous-time extension of score matching (time = the noise scale)
+\vspace{7em}
+
 
 ## Credits
 * Ayan Das' blog post
 * Lyu 2009
 * Vincent 2011
+* Song 2019
