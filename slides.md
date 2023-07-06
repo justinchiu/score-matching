@@ -79,7 +79,7 @@ $$
 \vspace{1em}
 * Issue: Can't compute $p(x)$ because of $Z$
 \vspace{1em}
-* Instead: Give up on exact likelihood computation. Use Fisher divergence
+* Instead: Give up on equality := KL div
 
 ## Approximation lemma
 * Two continuous functions are equal iff their derivatives are equal
