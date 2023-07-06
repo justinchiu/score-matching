@@ -143,8 +143,9 @@ $$
 ## Summary
 * Intractable partition function => Model score
     * Lose ability to compute likelihoods, can only use score model for sampling
-* Sample via Langevin dynamics (follow grad+noise)
-* Rewrite objective to avoid $\nabla_x p^*(x)$
+    * Sample via Langevin dynamics (follow grad+noise)
+* Don't know data score: Rewrite objective to avoid $\nabla_x p^*(x)$
+    * Results in some nasty expressions => Estimate with Hutchinson trace estimator
 * Add multiple noise scales to help learning score at random points
 
 # Connection to diffusion models
