@@ -91,7 +91,7 @@ $$
 
 
 ## Minimize Fisher divergence = Score matching
-Minimize Fisher divergence to avoid computing $Z$
+* Minimize Fisher divergence to avoid computing $Z$
 $$
 E_{p^*(x)} \left\|\nabla_x \log \frac{p^*(x)}{p(x)}\right\|_2^2
 = E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
@@ -101,8 +101,7 @@ $$
 E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
 = E_{p^*(x)} \left\|\nabla_x \log p^*(x) - s(x)\right\|_2^2
 $$
-\vspace{1em}
-* Parameterize $s(x)$ directly instead of $p(x)$, avoiding computing $Z$
+* Parameterize $s(x)$ directly instead of $p(x)$, avoid computing $Z$
 
 ## Issues in training an EBM
 $$
