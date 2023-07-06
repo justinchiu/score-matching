@@ -81,7 +81,7 @@ $$
 \vspace{1em}
 * Instead: Give up on equality := KL div
 
-## Approximation lemma
+## Approximation lemma (made up)
 * Two continuous functions are equal iff their derivatives are equal
 \vspace{8em}
 
