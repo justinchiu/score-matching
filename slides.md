@@ -138,7 +138,7 @@ $$
 * Solution: sample perturbed $x\sim p^*(x)$ with multiple noise scales $\{\sigma_i\}$
     * Interpretation: Data augmention + smooth out samples
     * Need to have score model condition on noise $s(x; \sigma_i)$
-\vspace{6em}
+\vspace{8em}
 
 ## Summary
 * Intractable partition function => Model score
