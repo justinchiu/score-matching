@@ -83,8 +83,7 @@ $$
 
 ## Approximation lemma (made up)
 * Two continuous functions are equal iff they are pointwise equal $p^*(x) = p(x)$
-* Two continuous functions are equal iff their derivatives are equal
- $\nabla_x p^*(x) = \nabla_x p(x)$
+* ALSO: Two continuous functions are equal iff their derivatives are equal $\nabla_x p^*(x) = \nabla_x p(x)$
 \vspace{8em}
 
 
