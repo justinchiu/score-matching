@@ -79,13 +79,23 @@ $$
 \vspace{1em}
 * Issue: Can't compute $p(x)$ because of $Z$
 \vspace{1em}
-* Instead: Minimize Fisher divergence to avoid computing $Z$
+* Instead: Give up on exact likelihood computation. Use Fisher divergence
+
+
+## Fisher divergence intuition
+* If two density fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
+* Can use the Stein score to get good samples / find likely $x$
+    * Langevin dynamics: follow score + noise (read more about it another time)
+* Lose ability to compute likelihoods, can only use score model for sampling
+\vspace{8em}
+
+
+## Minimize Fisher divergence = Score matching
+Minimize Fisher divergence to avoid computing $Z$
 $$
 E_{p^*(x)} \left\|\nabla_x \log \frac{p^*(x)}{p(x)}\right\|_2^2
 = E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
 $$
-
-## Minimize Fisher divergence = Score matching
 * Notation: Introduce Stein score $s(x) = \nabla_x \log p(x)$
 $$
 E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
@@ -93,13 +103,6 @@ E_{p^*(x)} \left\|\nabla_x \log p^*(x) - \nabla_x \log p(x)\right\|_2^2
 $$
 \vspace{1em}
 * Parameterize $s(x)$ directly instead of $p(x)$, avoiding computing $Z$
-
-## Fisher divergence intuition
-* If two fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
-* Can use the Stein score to get good samples / find likely $x$
-    * Langevin dynamics: follow score + noise (read more about it another time)
-* Lose ability to compute likelihoods, can only use score model for sampling
-\vspace{8em}
 
 ## Issues in training an EBM
 $$
