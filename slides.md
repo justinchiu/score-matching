@@ -85,7 +85,7 @@ $$
 ## Fisher divergence intuition
 * If two density fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
 * Can use the Stein score to get good samples / find likely $x$
-    * Langevin dynamics: follow score + noise (read more about it another time)
+    * Langevin dynamics: follow score + noise
 * Lose ability to compute likelihoods, can only use score model for sampling
 \vspace{8em}
 
