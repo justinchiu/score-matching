@@ -146,7 +146,8 @@ $$
 \vspace{8em}
 
 ## Summary
-* Intractable partition function => Model score
+* Intractable partition function => Model (Stein) score
+    * Pointwise equality => derivative equality
     * Lose ability to compute likelihoods, can only use score model for sampling
     * Sample via Langevin dynamics (follow grad+noise)
 * Don't know data score: Rewrite objective to avoid $\nabla_x p^*(x)$
