@@ -81,6 +81,10 @@ $$
 \vspace{1em}
 * Instead: Give up on exact likelihood computation. Use Fisher divergence
 
+## Approximation lemma
+* Two continuous functions are equal iff their derivatives are equal
+\vspace{8em}
+
 
 ## Fisher divergence intuition
 * If two density fns are equal, have the same Stein score $s(x) = \nabla_x \log p(x)$
